@@ -7,6 +7,8 @@
 ##ps: toy model 没有加入异常处理
 
 切割的脚本太消耗时间了，等有空了用C++写一个
+
+音频切割的脚本已优化~
 '''
 ### Usage
 > python xzhdx.py
