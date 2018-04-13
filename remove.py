@@ -24,32 +24,37 @@ import subprocess
 import json
 
 current = os.getcwd()
-path =  r'\1_雪中悍刀行之西北有雏凤'
-dirs = os.listdir(current + r'\\'+ path )
-for i in dirs:
-    if os.path.splitext(i)[1] == '.mp3':
-        os.rename(current + path +r'\\'+i,'temp.mp3')
-        getmp3 = 'ffmpeg -i temp.mp3'
-        result = subprocess.Popen(getmp3,shell=True,stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
-        #returnget = subprocess.call(getmp3,shell = True)
-        out = result.stdout.read()
-        #print(out)
-        temp = str(out.decode('utf-8'))
-        pattern = re.compile(r'00:\d\d:\d\d')
-        data = re.findall(pattern,temp)
-        print(data)
-        end = data[0].split(':')
-        if int(end[2]) < 58:
-            end[2] = int(end[2]) + 60 - 58
-            end[1] = int(end[1]) - 1
-        else:
-            end[2] = int(end[2]) - 58
-        endtime = str(end[0]) + ':' + str(end[1]) + ':' + str(end[2])
+pth = '.\雪中悍刀行\雪中悍刀行'
+path = os.listdir(pth)
+#print(current)
+# path =  r'\1_雪中悍刀行之西北有雏凤'
+for chpt in path:
+    dirs = os.listdir(current + pth+r'\\'+ chpt )
+    #print(dirs)
+    for i in dirs:
+        if os.path.splitext(i)[1] == '.mp3':
+            os.rename(current + pth +r'\\'+ chpt + r'\\' +i,'temp.mp3')
+            getmp3 = 'ffmpeg -i temp.mp3'
+            result = subprocess.Popen(getmp3,shell=True,stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+            #returnget = subprocess.call(getmp3,shell = True)
+            out = result.stdout.read()
+            #print(out)
+            temp = str(out.decode('utf-8'))
+            pattern = re.compile(r'00:\d\d:\d\d')
+            data = re.findall(pattern,temp)
+            print(data)
+            end = data[0].split(':')
+            if int(end[2]) < 58:
+                end[2] = int(end[2]) + 60 - 58
+                end[1] = int(end[1]) - 1
+            else:
+                end[2] = int(end[2]) - 58
+            endtime = str(end[0]) + ':' + str(end[1]) + ':' + str(end[2])
 
-        cutmp3 = 'ffmpeg -i temp.mp3 -ss 00:00:30'+' -to '+endtime+' -acodec copy tempcut.m4a'
-        print(cutmp3)
-        returncut = subprocess.call(cutmp3,shell = True)
-        os.remove('temp.mp3')
-        os.rename('tempcut.m4a',os.path.splitext(i)[0] + '.m4a')
-        #os.rename('temp.mp3',i)
-        
+            cutmp3 = 'ffmpeg -i temp.mp3 -ss 00:00:30'+' -to '+endtime+' -acodec copy tempcut.m4a'
+            print(cutmp3)
+            returncut = subprocess.call(cutmp3,shell = True)
+            os.remove('temp.mp3')
+            os.rename('tempcut.m4a',os.path.splitext(i)[0] + '.m4a')
+    #         #os.rename('temp.mp3',i)
+            
